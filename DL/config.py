@@ -21,7 +21,6 @@ def configs_settings(training_settings_path):
     else:
         root_path= aa
     print('--------------root_path:%s---------'%root_path)
-    # train_mat_path=os.path.join(root_path,'./logging/TrainSettings.mat')
     train_mat_path=os.path.join(root_path,training_settings_path)
     if not os.path.exists(train_mat_path):
         raise ValueError("No TrainingSetings found")
@@ -30,7 +29,6 @@ def configs_settings(training_settings_path):
     label = training_pairs_setting['traingpairs_settings']['label']
     gpu_idx = int(training_pairs_setting['traingpairs_settings']['gpu_idx'])
 
-    # h5_data_path=training_pairs_setting['traingpairs_settings']['data_path']
     json_path =training_pairs_setting['traingpairs_settings']['json_file_path']
     real_input = os.path.join(root_path,'logging',"data_temp.json")
     add_delimiter(json_path, real_input)
@@ -44,7 +42,7 @@ def configs_settings(training_settings_path):
     config.root_path=root_path
     config.img_setting.sr_factor = shift_times
     config.img_setting.ReScale_factor = [vol_sr_factor / shift_times, vol_sr_factor / shift_times]
-    config.img_setting.Nnum = presettings[1]['Nnum']  # N number of the light field psf
+    config.img_setting.Nnum = presettings[1]['Nnum']                                # N number of the light field psf
     config.img_setting.n_slices = presettings[1]['enhanced_n_slices']
 
     config.img_setting.data_root_path = os.path.join(root_path,presettings[0]['Training_data_dir'])
@@ -55,36 +53,27 @@ def configs_settings(training_settings_path):
     config.net_setting.denoise_model = 'LF_attention_denoise' 
     config.net_setting.SR_model = 'LF_SA_small'  
     config.net_setting.Recon_model = 'MultiRes_UNet'
-    #config.net_setting.ngf=[32,64,256] # airyscan
-    config.net_setting.ngf=[32,64,128]
+    config.net_setting.ngf=[32,64,128]                 # Unet channel
     config.net_setting.is_bias = False
     config.net_setting.Unetpyrimid_list=[128,256,512,512,512]  
 
     # ------------------------------Pretrain Setting----------------------------------
     config.Pretrain.loading_pretrain_model=training_pairs_setting['traingpairs_settings']['pretrain_flag']
     config.Pretrain.Training_epoch=[51,51,101]
-    # config.Pretrain.Training_epoch=[2,2,2]
 
     config.local_pre_SRVCD_dict={
             'lr_init':5*1e-4,
             'decay_every':50,
             'lr_decay':0.5,
             'ckpt_save':'./SR_VCD_pre',
+            'sample_save': './SR_VCD_pre',
             'n_epoch':101,
         }
 
     # ------------------------------Preprocess Setting----------------------------------
-    # LFP_Input_type = 'LFP'
-    # SynView_Input_type = 'ViewMap'
-    # Scan_Input_type = SynView_Input_type
-
-    config.preprocess.normalize_mode = 'percentile'  if config.img_setting.save_bit!=32 else None
-    # config.preprocess.LFP_type = '1_%s' % (LFP_Input_type)
-    # config.preprocess.SynView_type = '2_%s' % (SynView_Input_type)
-    config.preprocess.discard_view = []  # [1,2,14,15,16,17,29,30,196,197,209,210,211,212,224,225]
-
+    config.preprocess.normalize_mode = 'percentile' if config.img_setting.save_bit!=32 else None
+    config.preprocess.discard_view = []
     # ------------------------------Training Setting----------------------------------
-
     config.TRAIN.to_Disk=False
     config.TRAIN.test_saving_path = "sample/test/{}/".format(label)
     config.TRAIN.ckpt_saving_interval = 10

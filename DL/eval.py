@@ -158,8 +158,8 @@ def infer(epoch, batch_size=1, use_cpu=False):
 
             # denoise_out=np.squeeze(denoise_out)
             # sr_out=np.squeeze(sr_out)
-            recon_out=np.squeeze(recon_out)
-
+            recon_out = np.squeeze(recon_out)
+            recon_out = recon_out[:,:,1:-1]
             # imageio.imwrite(os.path.join(save_dir , '%s-%s' % (config['net_setting'].denoise_model, names[idx])),
             #                             denoise_out)
             # imageio.imwrite(os.path.join(save_dir , '%s-%s' % (config['net_setting'].SR_model, names[idx])),sr_out)
