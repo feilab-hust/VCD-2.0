@@ -50,7 +50,7 @@ We provide a user-friendly GUI package for fast network construction, which cons
 
 ### Model inference for quick validation
    * After running environment installation (seen in Section 2,[VCD 2.0 manual](/VCD%202.0%20manual.pdf)), users can fast implement the [trained models](/DL/checkpoint) on our provided [validation data](/example/validation_data).
-     The step-by-step illustration of this process are detailed in Section 3.4, "Network validation". The reconstruction results of example data are available at [Google Drive](https://drive.google.com/file/d/12gmTYRYSmYBnTj5Ha90yrMZVrBdFwLsv/view?usp=sharing).More details are seen in the [VCD 2.0 manual](/VCD%202.0%20manual.pdf)
+     The step-by-step illustration of this process are detailed in Section 3.3, "Quick start guide". The reconstruction results of example data are available at [Google Drive](https://drive.google.com/file/d/12gmTYRYSmYBnTj5Ha90yrMZVrBdFwLsv/view?usp=sharing).More details are seen in the [VCD 2.0 manual](/VCD%202.0%20manual.pdf)
 
 # Citation
 If you use this code and relevant data, please cite the corresponding paper where original methods appeared: 
