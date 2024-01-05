@@ -16,9 +16,6 @@ elif normalize_mode == 'constant':
 else:
     normalize_fn = normalize
 
-
-
-
 def __raise(info):
     raise Exception(info)
 
@@ -79,10 +76,6 @@ def infer(epoch, batch_size=1, use_cpu=False):
     save_dir = os.path.join(valid_lr_img_path,'Recon_%s'%label)
     tl.files.exists_or_mkdir(save_dir)
 
-    # layers_save_path  = os.path.join(save_dir,'layers_outputs')
-    # tl.files.exists_or_mkdir(layers_save_path)
-
-
     valid_lf_extras, names, height, width = read_valid_images(valid_lr_img_path)
     t_image = tf.placeholder('float32', [batch_size, height, width, 1])
     input_size = [height, width]
@@ -113,14 +106,8 @@ def infer(epoch, batch_size=1, use_cpu=False):
         Recon_net = recon_model(lf_extra=SR_net.outputs, n_slices=n_slices, output_size=Recon_size,
                                 is_train=True, reuse=False, name=Recon_tag, channels_interp=ngf3,
                                 normalize_mode=normalize_mode, transform='SAI2ViewStack',pyrimid_list=config['net_setting'].Unetpyrimid_list)
-
-
-    # denoise_ckpt= [filename for filename in os.listdir(checkpoint_dir) if
-    #                 ('.npz' in filename and epoch in filename and 'denoise' in filename)]
     denoise_ckpt= [filename for filename in os.listdir(checkpoint_dir) if
                     ('.npz' in filename and epoch in filename and 'denoise' in filename)]
-    # SR_ckpt_file = [filename for filename in os.listdir(checkpoint_dir) if
-    #                 ('.npz' in filename and '50' in filename and 'SR' in filename)]
     SR_ckpt_file = [filename for filename in os.listdir(checkpoint_dir) if
                     ('.npz' in filename and epoch in filename and 'SR' in filename)]
     Recon_ckpt_file = [filename for filename in os.listdir(checkpoint_dir) if
@@ -131,7 +118,6 @@ def infer(epoch, batch_size=1, use_cpu=False):
 
         tl.files.load_and_assign_npz(sess=sess, name=os.path.join(checkpoint_dir, denoise_ckpt[0]),
                                      network=denoise_net)
-
 
         tl.files.load_and_assign_npz(sess=sess, name=os.path.join(checkpoint_dir, SR_ckpt_file[0]),
                                      network=SR_net)
@@ -160,22 +146,10 @@ def infer(epoch, batch_size=1, use_cpu=False):
             # sr_out=np.squeeze(sr_out)
             recon_out = np.squeeze(recon_out)
             recon_out = recon_out[:,:,1:-1]
-            # imageio.imwrite(os.path.join(save_dir , '%s-%s' % (config['net_setting'].denoise_model, names[idx])),
-            #                             denoise_out)
+            recon_out = np.asarray(recon_out*255,np.uint8)
+            # imageio.imwrite(os.path.join(save_dir , '%s-%s' % (config['net_setting'].denoise_model, names[idx])), denoise_out)
             # imageio.imwrite(os.path.join(save_dir , '%s-%s' % (config['net_setting'].SR_model, names[idx])),sr_out)
             imageio.volwrite(os.path.join(save_dir , '%s-%s' % (config['net_setting'].Recon_model, names[idx])),np.transpose(np.transpose(recon_out, [1, 2, 0]), [1, 2, 0]))
-            # imageio.imwrite(os.path.join(save_dir, '%s-%s' % (config['net_setting'].Recon_model, names[idx])),
-            #                  np.max(np.transpose(np.transpose(recon_out, [1, 2, 0]), [1, 2, 0]),axis=0))
-            # save_tiff_imagej_compatible(os.path.join(save_dir , '%s-%s' % (config['net_setting'].denoise_model, names[idx])),
-            #                             np.squeeze(denoise_out), axes='YX')
-            # save_tiff_imagej_compatible(os.path.join(save_dir , '%s-%s' % (config['net_setting'].SR_model, names[idx])),
-            #                             np.squeeze(sr_out), axes='YX')
-            # save_tiff_imagej_compatible(os.path.join(save_dir , '%s-%s' % (config['net_setting'].Recon_model, names[idx])),
-            #                             np.squeeze(recon_out), axes='YXZ')
-
-            # recon_out = np.squeeze((recon_out-np.amin(recon_out))/(np.amax(recon_out)-np.amin(recon_out)))*255
-            # start_time = time.time()
-            # save_tiff_imagej_compatible(save_dir + '%s-%s' % (config.net_setting.Recon_model, names[idx]),recon_out.astype(np.uint8), axes='YXZ')
             print("\rtime elapsed (sess.run): %4.4fs " % (time.time() - start_time), end='')
 if __name__ == '__main__':
     import argparse

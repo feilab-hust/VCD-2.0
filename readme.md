@@ -42,14 +42,15 @@ We provide a user-friendly GUI package for fast network construction, which cons
   * utils: *sub-functions of Matlab-based GUI*
 * The workflow of this GUI is composed of 4 components:
   ① Dataset generation ② Network training ③ Network validation ④ Network fine-tuning.
-***The detailed explanation of these components and corresponding operation process are all included in the [VCD 2.0 manual](/VCD%202.0%20manual.pdf)***
+ \
+***Note: The detailed explanation of these components and corresponding operation process are all included in the [VCD 2.0 manual](/VCD%202.0%20manual.pdf)***
   \
   \
 ![GUI screenshot](./source/manual_source/GUI_FLOW.png)
 
 ### Model inference for quick validation
    * After running environment installation (seen in Section 2,[VCD 2.0 manual](/VCD%202.0%20manual.pdf)), users can fast implement the [trained models](/DL/checkpoint) on our provided [validation data](/example/validation_data).
-     The step-by-step illustration of this process are detailed in Section 3.4, "Network validation". The reconstruction results of example data are available at [Google Drive](https://drive.google.com/file/d/1d9r8g63A8xEf0II6sEXMwofpR3wS1atY/view?usp=sharing)
+     The step-by-step illustration of this process are detailed in Section 3.4, "Network validation". The reconstruction results of example data are available at [Google Drive](https://drive.google.com/file/d/12gmTYRYSmYBnTj5Ha90yrMZVrBdFwLsv/view?usp=sharing).More details are seen in the [VCD 2.0 manual](/VCD%202.0%20manual.pdf)
 
 # Citation
 If you use this code and relevant data, please cite the corresponding paper where original methods appeared: 

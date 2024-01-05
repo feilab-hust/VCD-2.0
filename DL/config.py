@@ -97,7 +97,7 @@ def configs_settings(training_settings_path):
 
     config.Loss.Ratio = [0.1, 0.2, 0.8]
 
-    config.Loss.denoise_loss = {'mae_loss': 1.0}
+    config.Loss.denoise_loss = {'mse_loss': 1.0}
 
     config.Loss.SR_loss = {'mse_loss': 1.0,
                            'EPI_mse_loss': 0.1
